@@ -1,0 +1,37 @@
+name: Deploy Tarea993 a GithubPages
+
+on:
+  push:
+    paths:
+      - 'TercerParcial/Tarea993/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: TercerParcial/Tarea993
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Instalar dependencias
+      run: |
+        pip install -r requirements.txt
+
+    - name: Ejecutar análisis
+      run: python clash_analysis.py
+
+    - name: Publicar en GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: TercerParcial/Tarea993/docs
+        publish_branch: gh-pages
